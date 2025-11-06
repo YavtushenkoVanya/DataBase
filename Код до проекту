@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+
+namespace HotelSystem
+{
+    class Program
+    {
+        class Client { public string Name; public string Phone; public string Email; }
+        class Employee { public string Name; public string Position; }
+        class Room { public string Number; public string Type; public double Price; public bool IsFree; }
+        class Booking
+        {
+            public Client Client;
+            public Room Room;
+            public Employee Employee;
+            public DateTime CheckIn;
+            public DateTime CheckOut;
+            public double TotalPrice;
+        }
+
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.Title = "🏨 Інформаційна система готелю";
+
+            var clients = new List<Client>
+            {
+                new Client { Name = "Владимир Романчук", Phone = "+380981234567", Email = "vlad@gmail.com" },
+                new Client { Name = "Анна Ткаченко", Phone = "+380631234567", Email = "anna@gmail.com" },
+                new Client { Name = "Олег Дорошенко", Phone = "+380991111222", Email = "oleg@gmail.com" }
+            };
+
+            var employees = new List<Employee>
+            {
+                new Employee { Name = "Оксана Іваненко", Position = "Адміністратор" },
+                new Employee { Name = "Ігор Петренко", Position = "Портьє" }
+            };
+
+            var rooms = new List<Room>
+            {
+                new Room { Number = "101", Type = "Стандарт",  Price = 900,  IsFree = true  },
+                new Room { Number = "102", Type = "Покращений", Price = 1200, IsFree = false },
+                new Room { Number = "201", Type = "Люкс",      Price = 1800, IsFree = true  },
+                new Room { Number = "202", Type = "Стандарт",  Price = 900,  IsFree = false }
+            };
+
+            var bookings = new List<Booking>
+            {
+                new Booking { Client = clients[0], Room = rooms[1], Employee = employees[0],
+                    CheckIn = new DateTime(2025,11,6), CheckOut = new DateTime(2025,11,9), TotalPrice = 3600 },
+
+                new Booking { Client = clients[1], Room = rooms[3], Employee = employees[1],
+                    CheckIn = new DateTime(2025,11,5), CheckOut = new DateTime(2025,11,7), TotalPrice = 1800 },
+
+                new Booking { Client = clients[2], Room = rooms[2], Employee = employees[0],
+                    CheckIn = new DateTime(2025,11,8), CheckOut = new DateTime(2025,11,10), TotalPrice = 3600 }
+            };
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("╔═══════════════════════════════════════════════╗");
+            Console.WriteLine("║        🏨 ІНФОРМАЦІЙНА СИСТЕМА ГОТЕЛЮ         ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════╝");
+            Console.ResetColor();
+
+            Console.WriteLine("\n📋 КОРОТКИЙ ОПИС:");
+            Console.WriteLine("Система демонструє роботу уявної бази даних готелю:");
+            Console.WriteLine("клієнти, бронювання, вільні номери та персонал.\n");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("=== СПИСОК БРОНЮВАНЬ ===");
+            Console.ResetColor();
+            foreach (var b in bookings)
+            {
+                Console.WriteLine($"Клієнт: {b.Client.Name}");
+                Console.WriteLine($"Номер: {b.Room.Number} ({b.Room.Type}), {b.Room.Price} грн/доба");
+                Console.WriteLine($"Працівник: {b.Employee.Name} ({b.Employee.Position})");
+                Console.WriteLine($"Період: {b.CheckIn:dd.MM.yyyy} - {b.CheckOut:dd.MM.yyyy}");
+                Console.WriteLine($"Загальна сума: {b.TotalPrice} грн");
+                Console.WriteLine(new string('─', 55));
+            }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n=== СПИСОК КЛІЄНТІВ ===");
+            Console.ResetColor();
+            foreach (var c in clients)
+                Console.WriteLine($"{c.Name} | {c.Phone} | {c.Email}");
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("\n=== ВІЛЬНІ НОМЕРИ ===");
+            Console.ResetColor();
+            foreach (var r in rooms)
+                if (r.IsFree)
+                    Console.WriteLine($"Номер {r.Number} ({r.Type}) — {r.Price} грн/доба");
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\n=== ПЕРСОНАЛ ГОТЕЛЮ ===");
+            Console.ResetColor();
+            foreach (var e in employees)
+                Console.WriteLine($"{e.Name} — {e.Position}");
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n✅ ПРОГРАМА ВИКОНАНА УСПІШНО.");
+            Console.WriteLine("Зробіть скріншот цього вікна.");
+            Console.ResetColor();
+
+            // ⏳ Чекаємо 20 секунд, щоб ти встиг зробити скрін
+            Thread.Sleep(20000);
+        }
+    }
+}
